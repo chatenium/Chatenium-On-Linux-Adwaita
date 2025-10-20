@@ -17,16 +17,16 @@ template $LoginView : Gtk.Box {
     }
 
     Adw.PreferencesGroup {
-      Adw.EntryRow {
+      Adw.EntryRow username_field {
         title: _("Username");
       }
 
-      Adw.PasswordEntryRow {
+      Adw.PasswordEntryRow password_field {
         title: _("Password");
       }
     }
 
-    Button {
+    Button login_button {
       label: _("Login");
     }
 }

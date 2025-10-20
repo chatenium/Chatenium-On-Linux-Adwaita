@@ -25,6 +25,18 @@
         "*.a"
     ],
     "modules" : [
+    	{
+	  "name": "Python dependencies",
+	  "buildsystem": "simple",
+	  "build-commands": [
+	    "pip3 install --prefix=/app keyring requests"
+	  ],
+	  "cleanup": [
+	    "*.pyc",
+	    "*.pyo",
+	    "__pycache__"
+	  ]
+	},
         {
             "name" : "chateniumadw",
             "builddir" : true,
@@ -40,10 +52,13 @@
             ]
         }
     ],
-    "build-options" : {
-        "env" : {
-            "LC_ALL" : "hu_HU.UTF-8",
-            "LANG" : "hu_HU.UTF-8"
-        }
+    "build-options": {
+    "env": {
+        "LC_ALL": "hu_HU.UTF-8",
+        "LANG": "hu_HU.UTF-8"
+    },
+    "build-args": [
+      "--share=network"
+    ]
     }
 }

@@ -3,13 +3,23 @@ from gi.repository import Gtk
 from gi.repository import Gdk
 import os
 
+from .login_model import login
+
 @Gtk.Template(resource_path='/hu/chatenium/chtnoladw/views/login/login.ui')
 class LoginView(Gtk.Box):
     __gtype_name__ = 'LoginView'
 
+    login_button = Gtk.Template.Child()
+    username_field = Gtk.Template.Child()
+    password_field = Gtk.Template.Child()
+
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.add_styles()
+        self.login_button.connect("clicked", self.login)
+
+    def login(self, button):
+        login(self.username_field.get_text(), self.password_field.get_text())
 
     def add_styles(self):
         css_provider = Gtk.CssProvider()
