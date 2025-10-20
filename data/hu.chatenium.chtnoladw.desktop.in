@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=chateniumadw
+Exec=chateniumadw
+Icon=hu.chatenium.chtnoladw
+Terminal=false
+Type=Application
+Categories=Utility;
+Keywords=GTK;
+StartupNotify=true
+DBusActivatable=true

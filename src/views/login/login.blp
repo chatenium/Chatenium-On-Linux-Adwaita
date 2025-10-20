@@ -1,0 +1,32 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $LoginView : Gtk.Box {
+    orientation: vertical;
+    width-request: 400;
+    halign: center;
+    valign: center;
+    vexpand: true;
+    spacing: 6;
+
+    Label login_title {
+      name: "login_title";
+      label: _("Login");
+      halign: start;
+      valign: center;
+    }
+
+    Adw.PreferencesGroup {
+      Adw.EntryRow {
+        title: _("Username");
+      }
+
+      Adw.PasswordEntryRow {
+        title: _("Password");
+      }
+    }
+
+    Button {
+      label: _("Login");
+    }
+}

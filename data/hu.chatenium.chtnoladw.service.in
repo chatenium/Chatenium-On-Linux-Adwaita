@@ -1,0 +1,3 @@
+[D-BUS Service]
+Name=hu.chatenium.chtnoladw
+Exec=@bindir@/chateniumadw --gapplication-service

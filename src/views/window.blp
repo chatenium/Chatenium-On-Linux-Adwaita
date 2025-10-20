@@ -1,0 +1,47 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $MainWindow : Adw.ApplicationWindow {
+  default-width: 600;
+  default-height: 300;
+  title: _("Hello, Blueprint!");
+
+  Adw.ToolbarView {
+    [top]
+    Adw.HeaderBar {}
+
+    content: Adw.ViewStack view_stack {
+      Adw.ViewStackPage page1 {
+        name: "page1";
+        child: Gtk.Box {
+          orientation: vertical;
+          Label label {
+            label: C_("Test context","Test translated");
+            halign: center;
+            valign: center;
+          }
+
+          Gtk.Button testButton {
+           label: "Click me";
+          }
+        };
+      }
+
+      Adw.ViewStackPage page2 {
+        name: "page2";
+        child: Gtk.Box {
+          orientation: vertical;
+          Label label2 {
+            label: "Page 1 content2";
+            halign: center;
+            valign: center;
+          }
+
+          Gtk.Button testButton2 {
+           label: "Click me2";
+          }
+        };
+      }
+    };
+  }
+}

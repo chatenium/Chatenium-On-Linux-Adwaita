@@ -1,0 +1,8 @@
+# List of source files containing translatable strings.
+# Please keep this file sorted alphabetically.
+#data/hu.chatenium.chtnoladw.desktop.in
+#data/hu.chatenium.chtnoladw.metainfo.xml.in
+#data/hu.chatenium.chtnoladw.gschema.xml
+src/main.py
+src/views/window.blp
+src/views/login/login.blp

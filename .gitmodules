@@ -1,0 +1,3 @@
+[submodule "backend"]
+	path = src/backend
+	url = https://github.com/Chatenium/Chatenium-On-Linux-UniEnd
