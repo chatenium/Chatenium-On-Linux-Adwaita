@@ -1,3 +1,3 @@
-# chateniumadw
+# Chatenium On Linux (LibAdwaita)
 
-A description of this project.
+A Chatenium client for GNOME powered by Chatenium UniEnd for Linux
