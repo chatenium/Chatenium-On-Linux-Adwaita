@@ -47,7 +47,6 @@ chateniumadw_sources = [
   'backend/environments.py',
   'backend/login/login_model.py',
   'backend/shared/local_storage.py',
-  'backend/backend_tester.py',
   'backend/http.py',
 ]
 

@@ -37,12 +37,14 @@ class LoginView(Gtk.Box):
     async def _get_auth(self, username):
         try:
             result = await login(username)
+            print("Got auth options")
             self.stack.set_visible_child_name("second_page")
             self.password_auth.set_visible(result.password)
             self.email_auth.set_visible(result.email)
             self.sms_auth.set_visible(result.sms)
-        except:
+        except Exception as e:
             toast = Adw.Toast.new(_("The server has returned an error"))
+            print(e)
             self.toast_overlay.add_toast(toast)
 
     def add_styles(self):

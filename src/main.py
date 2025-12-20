@@ -28,8 +28,6 @@ from gi.repository import Gtk, Gio, Adw
 from .window import MainWindow
 import os
 
-from .backend_tester import Test
-
 class ChateniumadwApplication(Adw.Application):
     """The main application singleton class."""
 

@@ -1,7 +1,6 @@
 from gi.repository import Adw
 from gi.repository import Gtk
 from .login import LoginView
-from .backend_tester import Test
 
 @Gtk.Template(resource_path='/hu/chatenium/chtnoladw/views/window.ui')
 class MainWindow(Adw.ApplicationWindow):
@@ -19,5 +18,3 @@ class MainWindow(Adw.ApplicationWindow):
     def navigate(self, button):
         self.view_stack.add_titled(LoginView(self.toast_overlay), "login_view", "login_view")
         self.view_stack.set_visible_child_name("login_view")
-        te = Test()
-        te.fodiJozsi()
