@@ -4,9 +4,10 @@ using Adw 1;
 template $MainWindow : Adw.ApplicationWindow {
   default-width: 600;
   default-height: 300;
-  title: _("Hello, Blueprint!");
+  title: _("Chatenium");
 
-  Adw.ToolbarView {
+  Adw.ToastOverlay toast_overlay {
+    Adw.ToolbarView {
     [top]
     Adw.HeaderBar {}
 
@@ -43,5 +44,6 @@ template $MainWindow : Adw.ApplicationWindow {
         };
       }
     };
+  }
   }
 }

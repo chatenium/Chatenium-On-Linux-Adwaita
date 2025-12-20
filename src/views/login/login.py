@@ -1,25 +1,49 @@
 from gi.repository import Adw
 from gi.repository import Gtk
 from gi.repository import Gdk
+from .login_model import login, AuthMethodResp
 import os
-
-from .login_model import login
+import asyncio
+import threading
 
 @Gtk.Template(resource_path='/hu/chatenium/chtnoladw/views/login/login.ui')
 class LoginView(Gtk.Box):
     __gtype_name__ = 'LoginView'
 
     login_button = Gtk.Template.Child()
+    first_page = Gtk.Template.Child()
+    second_page = Gtk.Template.Child()
     username_field = Gtk.Template.Child()
-    password_field = Gtk.Template.Child()
+    stack = Gtk.Template.Child()
 
-    def __init__(self, **kwargs):
+    password_auth = Gtk.Template.Child()
+    email_auth = Gtk.Template.Child()
+    sms_auth = Gtk.Template.Child()
+
+    def __init__(self, toast_overlay, **kwargs):
         super().__init__(**kwargs)
+        self.toast_overlay = toast_overlay
         self.add_styles()
-        self.login_button.connect("clicked", self.login)
 
-    def login(self, button):
-        login(self.username_field.get_text(), self.password_field.get_text())
+    @Gtk.Template.Callback()
+    def get_auth_callback(self, button):
+        print("Login clicked")
+        username = self.username_field.get_text()
+        threading.Thread(
+            target=lambda: asyncio.run(self._get_auth(username)),
+            daemon=True,
+        ).start()
+
+    async def _get_auth(self, username):
+        try:
+            result = await login(username)
+            self.stack.set_visible_child_name("second_page")
+            self.password_auth.set_visible(result.password)
+            self.email_auth.set_visible(result.email)
+            self.sms_auth.set_visible(result.sms)
+        except:
+            toast = Adw.Toast.new(_("The server has returned an error"))
+            self.toast_overlay.add_toast(toast)
 
     def add_styles(self):
         css_provider = Gtk.CssProvider()

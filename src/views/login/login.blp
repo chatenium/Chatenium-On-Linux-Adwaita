@@ -3,30 +3,59 @@ using Adw 1;
 
 template $LoginView : Gtk.Box {
     orientation: vertical;
-    width-request: 400;
-    halign: center;
-    valign: center;
-    vexpand: true;
     spacing: 6;
 
-    Label login_title {
-      name: "login_title";
-      label: _("Login");
-      halign: start;
-      valign: center;
-    }
+    Adw.ViewStack stack {
+        transition-duration: 250;
+        width-request: 400;
+        halign: center;
+        valign: center;
+        vexpand: true;
 
-    Adw.PreferencesGroup {
-      Adw.EntryRow username_field {
-        title: _("Username");
-      }
+        Adw.ViewStackPage {
+          child: Gtk.Box {
+            orientation: vertical;
+            spacing: 6;
 
-      Adw.PasswordEntryRow password_field {
-        title: _("Password");
-      }
-    }
+            Label login_title {
+              name: "login_title";
+              label: _("Login");
+              halign: start;
+              valign: center;
+              css-classes: ["login_title"];
+            }
 
-    Button login_button {
-      label: _("Login");
+            Adw.PreferencesGroup {
+              Adw.EntryRow username_field {
+                title: _("Username, e-mail address or phone number");
+              }
+            }
+
+            Button login_button {
+              label: _("Next");
+              clicked => $get_auth_callback();
+            }
+          };
+        }
+
+        Adw.ViewStackPage {
+          name: "second_page";
+          child: Gtk.Box {
+            orientation: vertical;
+            spacing: 6;
+
+            Button password_auth {
+              label: _("Login with password");
+            }
+
+            Button email_auth {
+              label: _("Login with one-time e-mail code");
+            }
+
+            Button sms_auth {
+              label: _("Login with one-time SMS code");
+            }
+          };
+        }
     }
 }
