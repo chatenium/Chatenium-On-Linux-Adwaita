@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-20 19:47+0200\n"
+"POT-Creation-Date: 2025-12-20 07:37+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #. Translators: Replace "translator-credits" with your name/username, and optionally an email or URL.
-#: src/main.py:60
+#: src/main.py:63
 msgid "translator-credits"
 msgstr ""
 
@@ -36,7 +36,7 @@ msgid "Login"
 msgstr ""
 
 #: src/views/login/login.blp:21
-msgid "Username"
+msgid "Username, e-mail address or phone number"
 msgstr ""
 
 #: src/views/login/login.blp:25

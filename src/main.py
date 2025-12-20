@@ -19,6 +19,7 @@
 
 import sys
 import gi
+import asyncio
 
 gi.require_version('Gtk', '4.0')
 gi.require_version('Adw', '1')
@@ -86,4 +87,5 @@ class ChateniumadwApplication(Adw.Application):
 def main(version):
     """The application's entry point."""
     app = ChateniumadwApplication()
+
     return app.run(sys.argv)

@@ -5,4 +5,8 @@
     <file preprocess="xml-stripblanks">views/login/login.ui</file>
     <file preprocess="xml-stripblanks">shortcuts-dialog.ui</file>
   </gresource>
+
+  <gresource prefix="/hu/chatenium/chtnoladw/icons/scalable/actions/">
+    <file compressed="true" preprocess="xml-stripblanks" alias="key-symbolic.svg">icons/key-symbolic.svg</file>
+  </gresource>
 </gresources>
