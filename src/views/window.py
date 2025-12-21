@@ -20,4 +20,4 @@ class MainWindow(Adw.ApplicationWindow):
         self.view_stack.add_titled(LoginView(self.toast_overlay), "login_view", "login_view")
         self.view_stack.add_titled(ChatView(), "chat_view", "chat_view")
 
-        self.view_stack.set_visible_child_name("chat_view")
+        self.view_stack.set_visible_child_name("login_view")
