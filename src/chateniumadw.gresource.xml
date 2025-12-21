@@ -4,6 +4,7 @@
     <file preprocess="xml-stripblanks">views/window.ui</file>
     <file preprocess="xml-stripblanks">views/login/login.ui</file>
     <file preprocess="xml-stripblanks">shortcuts-dialog.ui</file>
+    <file preprocess="xml-stripblanks">views/chat/chat.ui</file>
   </gresource>
 
   <gresource prefix="/hu/chatenium/chtnoladw/icons/scalable/actions/">

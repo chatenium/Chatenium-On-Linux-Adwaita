@@ -6,16 +6,19 @@ template $MainWindow : Adw.ApplicationWindow {
   default-height: 300;
   title: _("Chatenium");
 
-  Adw.ToastOverlay toast_overlay {
-    Adw.ToolbarView {
-    [top]
-    Adw.HeaderBar {}
+  Adw.ToolbarView {
 
-    content: Adw.ViewStack view_stack {
-      Adw.ViewStackPage page1 {
-        name: "page1";
+
+  Adw.ToastOverlay toast_overlay {
+    Adw.ViewStack view_stack {
+    Adw.ViewStackPage page1 {
+          name: "page1";
         child: Gtk.Box {
           orientation: vertical;
+
+          [top]
+          HeaderBar {}
+
           Label label {
             label: C_("Test context","Test translated");
             halign: center;
@@ -26,6 +29,7 @@ template $MainWindow : Adw.ApplicationWindow {
            label: "Click me";
           }
         };
+        }
       }
 
       Adw.ViewStackPage page2 {
@@ -43,7 +47,6 @@ template $MainWindow : Adw.ApplicationWindow {
           }
         };
       }
-    };
+    }
+    }
   }
-  }
-}

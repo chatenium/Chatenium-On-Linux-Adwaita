@@ -20,6 +20,8 @@ class LoginView(Gtk.Box):
     email_auth = Gtk.Template.Child()
     sms_auth = Gtk.Template.Child()
 
+    identity = ""
+
     def __init__(self, toast_overlay, **kwargs):
         super().__init__(**kwargs)
         self.toast_overlay = toast_overlay
@@ -29,6 +31,7 @@ class LoginView(Gtk.Box):
     def get_auth_callback(self, button):
         print("Login clicked")
         username = self.username_field.get_text()
+        self.identity = username
         threading.Thread(
             target=lambda: asyncio.run(self._get_auth(username)),
             daemon=True,
