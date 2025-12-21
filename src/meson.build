@@ -46,10 +46,6 @@ chateniumadw_sources = [
   'views/login/login.py',
   'views/login/login.css',
   'views/chat/chat.py',
-  'backend/environments.py',
-  'backend/login/login_model.py',
-  'backend/shared/local_storage.py',
-  'backend/http.py',
 ]
 
 install_data(chateniumadw_sources, install_dir: moduledir)

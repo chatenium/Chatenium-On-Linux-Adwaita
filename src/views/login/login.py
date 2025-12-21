@@ -1,7 +1,7 @@
 from gi.repository import Adw
 from gi.repository import Gtk
 from gi.repository import Gdk
-from .login_model import login, AuthMethodResp
+from backend.login.login_model import login, AuthMethodResp
 import os
 import asyncio
 import threading
