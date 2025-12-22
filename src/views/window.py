@@ -2,6 +2,7 @@ from gi.repository import Adw
 from gi.repository import Gtk
 from .login import LoginView
 from .chat import ChatView
+from backend.session_manager import SessionManager
 
 @Gtk.Template(resource_path='/hu/chatenium/chtnoladw/views/window.ui')
 class MainWindow(Adw.ApplicationWindow):
@@ -14,6 +15,7 @@ class MainWindow(Adw.ApplicationWindow):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        SessionManager.instance().loadSessions()
         self.testButton.connect("clicked", self.navigate)
 
     def navigate(self, button):

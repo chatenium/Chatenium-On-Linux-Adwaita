@@ -2,15 +2,6 @@ using Gtk 4.0;
 using Adw 1;
 
 template $ChatView: Gtk.Box {
-  Adw.Breakpoint {
-    condition ("max-width: 400sp")
-
-    setters {
-      split_view.collapsed: true;
-      button.visible: true;
-    }
-  }
-
   Adw.NavigationSplitView split_view {
     hexpand: true;
 
@@ -24,20 +15,13 @@ template $ChatView: Gtk.Box {
           show-title: true;
         }
 
-        content: Adw.StatusPage {
-          title: _("Sidebar");
+        content: Gtk.ListBox chat_list {
+          selection-mode: single;
+          css-classes: ["navigation-sidebar"];
 
-          Button button {
-            visible: false;
-            halign: center;
-            can-shrink: true;
-            label: _("Open Content");
-            action-name: "navigation.push";
-            action-target: "'content'";
-
-            styles [
-              "pill",
-            ]
+          Adw.ActionRow {
+            title: _("asd");
+            activatable: true;
           }
         };
       };

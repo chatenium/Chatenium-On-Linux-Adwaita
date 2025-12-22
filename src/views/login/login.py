@@ -43,6 +43,7 @@ class LoginView(Gtk.Box):
 
     async def _get_auth(self, username):
         try:
+            print(username)
             result = await login(username)
             print("Got auth options")
             self.stack.set_visible_child_name("second_page")
@@ -50,7 +51,7 @@ class LoginView(Gtk.Box):
             self.email_auth.set_visible(result.email)
             self.sms_auth.set_visible(result.sms)
         except Exception as e:
-            toast = Adw.Toast.new(_("The server has returned an error"))
+            toast = Adw.Toast.new(f"{e}")
             self.toast_overlay.add_toast(toast)
 
     ### Password auth
