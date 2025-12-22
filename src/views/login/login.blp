@@ -5,6 +5,9 @@ template $LoginView : Gtk.Box {
     orientation: vertical;
     spacing: 6;
 
+    [top]
+    HeaderBar {}
+
     Adw.ViewStack stack {
         transition-duration: 250;
         width-request: 400;
@@ -22,7 +25,7 @@ template $LoginView : Gtk.Box {
               label: _("Login");
               halign: start;
               valign: center;
-              css-classes: ["login_title"];
+              css-classes: ["title-1"];
             }
 
             Adw.PreferencesGroup {
@@ -44,16 +47,26 @@ template $LoginView : Gtk.Box {
             orientation: vertical;
             spacing: 6;
 
+            Label {
+              label: _("Select an authentication method");
+              halign: start;
+              valign: center;
+              css-classes: ["title-1"];
+            }
+
             Button password_auth {
               label: _("Login with password");
+              clicked => $use_password_auth();
             }
 
             Button email_auth {
               label: _("Login with one-time e-mail code");
+              clicked => $use_email_auth();
             }
 
             Button sms_auth {
               label: _("Login with one-time SMS code");
+              clicked => $use_sms_auth();
             }
           };
         }
@@ -61,8 +74,82 @@ template $LoginView : Gtk.Box {
         Adw.ViewStackPage {
           name: "password_auth";
           child: Gtk.Box {
+            orientation: vertical;
+            spacing: 6;
 
+            Label {
+              label: _("Enter your password");
+              halign: start;
+              valign: center;
+              css-classes: ["title-1"];
+            }
+
+            Adw.PreferencesGroup {
+              Adw.PasswordEntryRow password_field {
+                title: _("Password");
+
+              }
+
+              Button {
+                label: _("Login");
+                clicked => $signin_with_password();
+              }
+            }
           };
+        }
+
+        Adw.ViewStackPage {
+              name: "email_auth";
+              child: Gtk.Box {
+                 orientation: vertical;
+                 spacing: 6;
+
+
+                 Label email_auth_label {
+                  label: _("Enter the e-mail code");
+                  halign: start;
+                  valign: center;
+                  css-classes: ["title-1"];
+                }
+
+                 Adw.PreferencesGroup {
+                    Adw.EntryRow email_code_field {
+                      title: _("E-mail code");
+                    }
+
+                    Button {
+                      label: _("Login");
+                      clicked => $signin_with_email_code();
+                    }
+                 }
+             };
+        }
+
+        Adw.ViewStackPage {
+              name: "sms_auth";
+              child: Gtk.Box {
+                 orientation: vertical;
+                 spacing: 6;
+
+
+                 Label sms_auth_label {
+                  label: _("Enter the SMS code");
+                  halign: start;
+                  valign: center;
+                  css-classes: ["title-1"];
+                }
+
+                 Adw.PreferencesGroup {
+                    Adw.EntryRow sms_code_field {
+                      title: _("SMS code");
+                    }
+
+                    Button {
+                      label: _("Login");
+                      clicked => $signin_with_sms_code();
+                    }
+                 }
+             };
         }
     }
 }
