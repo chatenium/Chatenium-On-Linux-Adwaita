@@ -15,35 +15,36 @@ template $ChatView: Gtk.Box {
           show-title: true;
         }
 
-        content: Gtk.ListBox chat_list {
-          selection-mode: single;
-          css-classes: ["navigation-sidebar"];
+        content: Gtk.Stack chat_list_holder {
+          Gtk.Spinner chat_list_loader {
+            height-request: 48;
+            width-request: 48;
+            halign: center;
+            valign: center;
+          }
 
-          Adw.ActionRow {
-            title: _("asd");
-            activatable: true;
+          Gtk.ListBox chat_list {
+            selection-mode: single;
+            css-classes: ["navigation-sidebar"];
+            row-selected => $on_chat_selected();
           }
         };
       };
     };
 
     content: Adw.NavigationPage {
-      title: _("Content");
+      title: _("Select a chat");
       tag: "content";
 
-      child: Adw.ToolbarView {
+      child: Adw.ToolbarView main_content {
         [top]
         Adw.HeaderBar {
           show-title: false;
         }
 
         content: Adw.StatusPage {
-          title: _("Content");
-
-          LinkButton {
-            label: _("API Reference");
-            uri: "https://gnome.pages.gitlab.gnome.org/libadwaita/doc/1.6/class.NavigationSplitView.html";
-          }
+          margin-bottom: 45;
+          title: _("Select a chat");
         };
       };
     };

@@ -1,8 +1,9 @@
 from gi.repository import Adw
 from gi.repository import Gtk
-from .chat_row import ChatRow
 from backend.chat.chats_handler import ChatsHandler
 from backend.session_manager import SessionManager
+from .dm import DmView
+from .async_image import AsyncImage
 import threading
 import asyncio
 
@@ -11,18 +12,42 @@ class ChatView(Gtk.Box):
     __gtype_name__ = 'ChatView'
 
     chat_list = Gtk.Template.Child()
+    chat_list_holder = Gtk.Template.Child()
+    chat_list_loader = Gtk.Template.Child()
+    main_content = Gtk.Template.Child()
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
         print(SessionManager.instance().currentSession)
 
+        self.chat_list_holder.set_visible_child(self.chat_list_loader)
+        self.chat_list_loader.start()
+
         threading.Thread(
             target=lambda: asyncio.run(self._load_chats()),
             daemon=True
         ).start()
 
+    @Gtk.Template.Callback()
+    def on_chat_selected(self, listbox, item):
+        chat = item.chat_data
+        self.main_content.set_content(DmView())
+
     async def _load_chats(self):
         chats = await ChatsHandler.instance().getChats()
         print(chats)
-        self.chat_list.append(ChatRow())
+        self.chat_list_holder.set_visible_child(self.chat_list)
+        for chat in chats:
+            row = Adw.ActionRow()
+
+            name = chat.displayName
+            if chat.displayName == "":
+                name = "@"+chat.username
+
+            avatar_img = AsyncImage(chat.pfp, placeholder_icon="avatar-default-symbolic", height=35, width=35)
+
+            row.add_prefix(avatar_img)
+            row.set_title(name)
+            row.chat_data = chat
+            self.chat_list.append(row)

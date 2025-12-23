@@ -1,0 +1,29 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $DmView : Gtk.Box {
+  orientation: vertical;
+  spacing: 12;
+  margin-end: 10;
+  margin-top: 10;
+  margin-start: 10;
+  margin-bottom: 10;
+
+  // Big box (e.g., list or content area)
+  Gtk.ScrolledWindow {
+      hexpand: true;
+      vexpand: true;
+
+      Gtk.ListBox {
+          hexpand: true;
+          vexpand: true;
+          css-classes: ["transparent"];
+      }
+  }
+
+  // Small entry below
+  Gtk.Entry {
+      placeholder-text: "Type something...";
+      hexpand: true;
+  }
+}
