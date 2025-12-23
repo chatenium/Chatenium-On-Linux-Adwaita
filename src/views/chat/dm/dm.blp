@@ -14,10 +14,20 @@ template $DmView : Gtk.Box {
       hexpand: true;
       vexpand: true;
 
-      Gtk.ListBox {
+      Gtk.Stack message_list_holder {
+        Gtk.Spinner message_list_loader {
+          height-request: 48;
+          width-request: 48;
+          halign: center;
+          valign: center;
+        }
+
+        Gtk.ListBox message_list {
+          selection-mode: none;
           hexpand: true;
           vexpand: true;
           css-classes: ["transparent"];
+        }
       }
   }
 

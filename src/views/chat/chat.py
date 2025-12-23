@@ -32,7 +32,7 @@ class ChatView(Gtk.Box):
     @Gtk.Template.Callback()
     def on_chat_selected(self, listbox, item):
         chat = item.chat_data
-        self.main_content.set_content(DmView())
+        self.main_content.set_content(DmView(chat))
 
     async def _load_chats(self):
         chats = await ChatsHandler.instance().getChats()
