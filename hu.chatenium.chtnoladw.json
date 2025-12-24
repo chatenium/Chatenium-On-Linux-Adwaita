@@ -27,10 +27,10 @@
     ],
     "modules" : [
     	{
-	  "name": "Python dependencies",
+	  "name": "python-dependencies",
 	  "buildsystem": "simple",
 	  "build-commands": [
-	    "pip3 install --prefix=/app keyring requests aiohttp git+https://github.com/chatenium/Chatenium-On-Linux-UniEnd "
+	    "pip3 install keyring requests aiohttp git+https://github.com/chatenium/Chatenium-On-Linux-UniEnd"
 	  ],
 	  "cleanup": [
 	    "*.pyc",
@@ -54,10 +54,6 @@
         }
     ],
     "build-options": {
-    "env": {
-        "LC_ALL": "hu_HU.UTF-8",
-        "LANG": "hu_HU.UTF-8"
-    },
     "build-args": [
       "--share=network"
     ]

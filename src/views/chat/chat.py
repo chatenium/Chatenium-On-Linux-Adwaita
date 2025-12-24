@@ -16,6 +16,7 @@ class ChatView(Gtk.Box):
     chat_list_holder = Gtk.Template.Child()
     chat_list_loader = Gtk.Template.Child()
     main_content = Gtk.Template.Child()
+    chat_list_scroller = Gtk.Template.Child()
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -43,7 +44,7 @@ class ChatView(Gtk.Box):
     async def _load_chats(self):
         chats = await ChatsHandler.instance().getChats()
         print(chats)
-        self.chat_list_holder.set_visible_child(self.chat_list)
+        self.chat_list_holder.set_visible_child(self.chat_list_scroller)
         for chat in chats:
             row = Adw.ActionRow()
 

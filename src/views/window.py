@@ -3,6 +3,7 @@ from gi.repository import Gtk
 from .login import LoginView
 from .chat import ChatView
 from backend.session_manager import SessionManager
+import backend.environments as Environments
 
 @Gtk.Template(resource_path='/hu/chatenium/chtnoladw/views/window.ui')
 class MainWindow(Adw.ApplicationWindow):
@@ -15,6 +16,10 @@ class MainWindow(Adw.ApplicationWindow):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+
+        print(Environments)
+        Environments.instance().overwrite_env("ASD", "ASD")
+
         signedIn = SessionManager.instance().loadSessions()
         if signedIn:
             self.view_stack.add_titled(ChatView(), "chat_view", "chat_view")

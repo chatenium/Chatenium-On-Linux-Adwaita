@@ -32,6 +32,7 @@ class DmView(Gtk.Box):
         ).start()
 
     def _refresh_message_list(self, messages):
+        print("Refreshing")
         self.message_list_box.remove_all()
 
         for message in messages:

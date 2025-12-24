@@ -23,11 +23,13 @@ template $ChatView: Gtk.Box {
             valign: center;
           }
 
-          Gtk.ListBox chat_list {
+          Gtk.ScrolledWindow chat_list_scroller {
+                Gtk.ListBox chat_list {
             selection-mode: single;
             css-classes: ["navigation-sidebar"];
             row-selected => $on_chat_selected();
           }
+              }
         };
       };
     };
