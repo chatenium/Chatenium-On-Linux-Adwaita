@@ -3,7 +3,7 @@ from gi.repository import Gtk
 from .login import LoginView
 from .chat import ChatView
 from backend.session_manager import SessionManager
-import backend.environments as Environments
+from backend.environments import Environments
 
 @Gtk.Template(resource_path='/hu/chatenium/chtnoladw/views/window.ui')
 class MainWindow(Adw.ApplicationWindow):
@@ -18,7 +18,7 @@ class MainWindow(Adw.ApplicationWindow):
         super().__init__(**kwargs)
 
         print(Environments)
-        Environments.instance().overwrite_env("ASD", "ASD")
+        Environments.instance().overwrite_env("http://192.168.1.228:3000", "ws://192.168.1.228:3000")
 
         signedIn = SessionManager.instance().loadSessions()
         if signedIn:

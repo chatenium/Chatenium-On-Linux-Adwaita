@@ -1,4 +1,4 @@
-from gi.repository import Adw, Gtk, Gdk
+from gi.repository import Adw, Gtk, Gdk, GLib
 from backend.chat.dm.dm_handler import DmHandler, Attachment
 from backend.session_manager import SessionManager
 import os
@@ -32,25 +32,32 @@ class DmView(Gtk.Box):
         ).start()
 
     def _refresh_message_list(self, messages):
-        print("Refreshing")
-        self.message_list_box.remove_all()
+        def update_gui():
+            print("Refreshing")
+            self.message_list_box.remove_all()
 
-        for message in messages:
-            row = Gtk.Box()
-            row.append(Gtk.Label(label=message.message))
+            for message in messages:
+                row = Gtk.Box()
+                row.append(Gtk.Label(label=message.message))
 
-            if message.author == SessionManager.instance().currentSession[1].userid:
-                row.set_halign(Gtk.Align.END)
+                if message.author == SessionManager.instance().currentSession[1].userid:
+                    row.set_halign(Gtk.Align.END)
 
-            self.message_list_box.append(row)
-        self.message_list_holder.set_visible_child(self.message_list)
+                self.message_list_box.append(row)
 
-        self.message_list.set_opacity(0)
-        time.sleep(.1)
-        scrolled = self.message_list
-        vadjust = scrolled.get_vadjustment()
-        vadjust.set_value(vadjust.get_upper() - vadjust.get_page_size())
-        self.message_list.set_opacity(1)
+            self.message_list_holder.set_visible_child(self.message_list)
+
+            # Scroll to bottom
+            self.message_list.set_opacity(0)
+            scrolled = self.message_list
+            vadjust = scrolled.get_vadjustment()
+            vadjust.set_value(vadjust.get_upper() - vadjust.get_page_size())
+            self.message_list.set_opacity(1)
+
+            return False  # Stop idle_add from repeating
+
+        GLib.idle_add(update_gui)
+
 
     async def _load_messages(self):
         messages = await DmHandler.instance().get_messages(self.chatdata.chatid)
