@@ -15,11 +15,12 @@ class MainWindow(Adw.ApplicationWindow):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        SessionManager.instance().loadSessions()
-        self.testButton.connect("clicked", self.navigate)
+        signedIn = SessionManager.instance().loadSessions()
+        if signedIn:
+            self.view_stack.add_titled(ChatView(), "chat_view", "chat_view")
+            self.view_stack.set_visible_child_name("chat_view")
+        else:
+            self.view_stack.add_titled(LoginView(self.toast_overlay, self.view_stack), "login_view", "login_view")
+            self.view_stack.set_visible_child_name("login_view")
 
-    def navigate(self, button):
-        self.view_stack.add_titled(LoginView(self.toast_overlay), "login_view", "login_view")
-        self.view_stack.add_titled(ChatView(), "chat_view", "chat_view")
 
-        self.view_stack.set_visible_child_name("chat_view")

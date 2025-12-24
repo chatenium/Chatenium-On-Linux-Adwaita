@@ -1,0 +1,12 @@
+[default]
+name=Default
+runtime=host
+toolchain=default
+config-opts=
+run-opts=
+prefix=/home/user/Projects/.gnome-builder/projects/Chatenium-On-Linux-Adwaita/install/host
+app-id=
+postbuild=
+prebuild=
+run-command=
+default=true

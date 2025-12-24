@@ -1,9 +1,9 @@
-from gi.repository import Adw
-from gi.repository import Gtk
-from gi.repository import Gdk
+from gi.repository import Adw, Gtk, Gdk, GLib
 from backend.login.login_model import login, AuthMethodResp, password_auth, otp_send_code, otp_verify_code
 from backend.session_manager import User
 from urllib.parse import quote, quote_plus
+from .chat import ChatView
+from backend.session_manager import SessionManager
 
 import os
 import asyncio
@@ -27,9 +27,10 @@ class LoginView(Gtk.Box):
 
     identity = ""
 
-    def __init__(self, toast_overlay, **kwargs):
+    def __init__(self, toast_overlay, view_stack, **kwargs):
         super().__init__(**kwargs)
         self.toast_overlay = toast_overlay
+        self.view_stack = view_stack
 
     @Gtk.Template.Callback()
     def get_auth_callback(self, button):
@@ -69,12 +70,17 @@ class LoginView(Gtk.Box):
             daemon=True
         ).start()
 
+    def _enter_chat_view(self):
+        self.view_stack.add_titled(ChatView(), "chat_view", "chat_view")
+        self.view_stack.set_visible_child_name("chat_view")
+
     async def _do_signin_with_password(self, password):
         try:
             result = await password_auth(self.identity, password)
-            print(result)
+            SessionManager.instance().loadSessions()
+            GLib.idle_add(self._enter_chat_view)
         except Exception as e:
-            toast = Adw.Toast.new(_("Incorrect password"))
+            toast = Adw.Toast.new(f"{e}")
             self.toast_overlay.add_toast(toast)
 
     ### E-Mail auth
@@ -118,6 +124,8 @@ class LoginView(Gtk.Box):
     async def _do_verify_otp_code(self, type: int, to: str, code: str):
         try:
             await otp_verify_code(type, to, int(code))
+            SessionManager.instance().loadSessions()
+            GLib.idle_add(self._enter_chat_view)
         except Exception as e:
             toast = Adw.Toast.new(f"{e}")
             self.toast_overlay.add_toast(toast)

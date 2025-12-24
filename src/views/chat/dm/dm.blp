@@ -10,30 +10,33 @@ template $DmView : Gtk.Box {
   margin-bottom: 10;
 
   // Big box (e.g., list or content area)
-  Gtk.ScrolledWindow {
-      hexpand: true;
-      vexpand: true;
 
-      Gtk.Stack message_list_holder {
-        Gtk.Spinner message_list_loader {
-          height-request: 48;
-          width-request: 48;
-          halign: center;
-          valign: center;
-        }
 
-        Gtk.ListBox message_list {
+  Gtk.Stack message_list_holder {
+    hexpand: true;
+    vexpand: true;
+
+      Gtk.Spinner message_list_loader {
+        height-request: 48;
+        width-request: 48;
+        halign: center;
+        valign: center;
+      }
+
+      Gtk.ScrolledWindow message_list {
+        Gtk.ListBox message_list_box {
           selection-mode: none;
           hexpand: true;
           vexpand: true;
           css-classes: ["transparent"];
         }
-      }
+    }
   }
 
   // Small entry below
   Gtk.Entry {
       placeholder-text: "Type something...";
       hexpand: true;
+      activate => $on_entry_activate();
   }
 }

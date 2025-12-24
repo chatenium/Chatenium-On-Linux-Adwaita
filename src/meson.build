@@ -1,6 +1,17 @@
 pkgdatadir = get_option('prefix') / get_option('datadir') / meson.project_name()
 moduledir = pkgdatadir / 'chateniumadw'
 gnome = import('gnome')
+python = import('python')
+pip = find_program('pip3')
+
+backend_install = custom_target(
+  'backend_install',
+  output: 'b',
+  command: [
+    'sh', '-c',
+    'pip3 install --user git+https://github.com/chatenium/Chatenium-On-Linux-UniEnd'
+  ]
+)
 
 blueprints = custom_target('blueprints',
   input: files(
@@ -11,6 +22,7 @@ blueprints = custom_target('blueprints',
   ),
   output: '.',
   command: [find_program('blueprint-compiler'), 'batch-compile', '@OUTPUT@', '@CURRENT_SOURCE_DIR@', '@INPUT@'],
+  depends: backend_install
 )
 
 gnome.compile_resources('chateniumadw',

@@ -30,7 +30,7 @@
 	  "name": "Python dependencies",
 	  "buildsystem": "simple",
 	  "build-commands": [
-	    "pip3 install --prefix=/app keyring requests aiohttp git+https://github.com/chatenium/Chatenium-On-Linux-UniEnd  "
+	    "pip3 install --prefix=/app keyring requests aiohttp git+https://github.com/chatenium/Chatenium-On-Linux-UniEnd "
 	  ],
 	  "cleanup": [
 	    "*.pyc",

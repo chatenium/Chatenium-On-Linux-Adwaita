@@ -4,6 +4,7 @@ from backend.chat.chats_handler import ChatsHandler
 from backend.session_manager import SessionManager
 from .dm import DmView
 from .async_image import AsyncImage
+from backend.websocket import WebSocket
 import threading
 import asyncio
 
@@ -20,6 +21,11 @@ class ChatView(Gtk.Box):
         super().__init__(**kwargs)
 
         print(SessionManager.instance().currentSession)
+
+        threading.Thread(
+            target=asyncio.run(WebSocket.instance().connect()),
+            daemon=True
+        ).start()
 
         self.chat_list_holder.set_visible_child(self.chat_list_loader)
         self.chat_list_loader.start()
