@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-20 07:37+0100\n"
+"POT-Creation-Date: 2025-12-29 16:45+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,28 +17,71 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#. Translators: Replace "translator-credits" with your name/username, and optionally an email or URL.
-#: src/main.py:63
-msgid "translator-credits"
-msgstr ""
-
 #: src/views/window.blp:7
-msgid "Hello, Blueprint!"
+msgid "Chatenium"
 msgstr ""
 
-#: src/views/window.blp:19
-msgctxt "Test context"
-msgid "Test translated"
-msgstr ""
-
-#: src/views/login/login.blp:14 src/views/login/login.blp:30
+#: src/views/login/login.blp:25 src/views/login/login.blp:94
+#: src/views/login/login.blp:121 src/views/login/login.blp:148
 msgid "Login"
 msgstr ""
 
-#: src/views/login/login.blp:21
+#: src/views/login/login.blp:33
 msgid "Username, e-mail address or phone number"
 msgstr ""
 
-#: src/views/login/login.blp:25
+#: src/views/login/login.blp:38
+msgid "Next"
+msgstr ""
+
+#: src/views/login/login.blp:51
+msgid "Select an authentication method"
+msgstr ""
+
+#: src/views/login/login.blp:58
+msgid "Login with password"
+msgstr ""
+
+#: src/views/login/login.blp:63
+msgid "Login with one-time e-mail code"
+msgstr ""
+
+#: src/views/login/login.blp:68
+msgid "Login with one-time SMS code"
+msgstr ""
+
+#: src/views/login/login.blp:81
+msgid "Enter your password"
+msgstr ""
+
+#: src/views/login/login.blp:89
 msgid "Password"
+msgstr ""
+
+#: src/views/login/login.blp:109
+msgid "Enter the e-mail code"
+msgstr ""
+
+#: src/views/login/login.blp:117
+msgid "E-mail code"
+msgstr ""
+
+#: src/views/login/login.blp:136
+msgid "Enter the SMS code"
+msgstr ""
+
+#: src/views/login/login.blp:144
+msgid "SMS code"
+msgstr ""
+
+#: src/views/chat/chat.py:84
+msgid "addUserUnk"
+msgstr ""
+
+#: src/views/chat/chat.py:85
+msgid "noStartChatWithSelf"
+msgstr ""
+
+#: src/views/chat/chat.py:86
+msgid "chatAlreadyExists"
 msgstr ""

@@ -35,9 +35,6 @@ class ChateniumadwApplication(Adw.Application):
         super().__init__(application_id='hu.chatenium.chtnoladw',
                          flags=Gio.ApplicationFlags.DEFAULT_FLAGS,
                          resource_base_path='/hu/chatenium/chtnoladw')
-        self.create_action('quit', lambda *_: self.quit(), ['<primary>q'])
-        self.create_action('about', self.on_about_action)
-        self.create_action('preferences', self.on_preferences_action)
 
     def do_activate(self):
         """Called when the application is activated.
@@ -49,37 +46,6 @@ class ChateniumadwApplication(Adw.Application):
         if not win:
             win = MainWindow(application=self)
         win.present()
-
-    def on_about_action(self, *args):
-        """Callback for the app.about action."""
-        about = Adw.AboutDialog(application_name='chateniumadw',
-                                application_icon='hu.chatenium.chtnoladw',
-                                developer_name='Parallels',
-                                version='0.1.0',
-                                developers=['Parallels'],
-                                copyright='© 2025 Parallels')
-        # Translators: Replace "translator-credits" with your name/username, and optionally an email or URL.
-        about.set_translator_credits(_('translator-credits'))
-        about.present(self.props.active_window)
-
-    def on_preferences_action(self, widget, _):
-        """Callback for the app.preferences action."""
-        print('app.preferences action activated')
-
-    def create_action(self, name, callback, shortcuts=None):
-        """Add an application action.
-
-        Args:
-            name: the name of the action
-            callback: the function to be called when the action is
-              activated
-            shortcuts: an optional list of accelerators
-        """
-        action = Gio.SimpleAction.new(name, None)
-        action.connect("activate", callback)
-        self.add_action(action)
-        if shortcuts:
-            self.set_accels_for_action(f"app.{name}", shortcuts)
 
 
 def main(version):

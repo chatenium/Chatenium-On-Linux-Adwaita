@@ -1,7 +1,7 @@
 {
     "id" : "hu.chatenium.chtnoladw",
     "runtime" : "org.gnome.Platform",
-    "runtime-version" : "48",
+    "runtime-version" : "49",
     "sdk" : "org.gnome.Sdk",
     "command" : "chateniumadw",
     "finish-args" : [
@@ -10,7 +10,7 @@
         "--socket=fallback-x11",
         "--device=dri",
         "--socket=wayland",
-    	"--talk-name=org.freedesktop.secrets"
+        "--talk-name=org.freedesktop.secrets"
     ],
     "cleanup" : [
         "/include",
@@ -28,7 +28,7 @@
 	  "name": "python-dependencies",
 	  "buildsystem": "simple",
 	  "build-commands": [
-	    "pip3 install keyring requests aiohttp chatenium-uniend"
+	    "pip3 install --prefix=/app keyring requests aiohttp chatenium-uniend"
 	  ],
 	  "cleanup": [
 	    "*.pyc",

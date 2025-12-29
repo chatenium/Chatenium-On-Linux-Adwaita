@@ -31,32 +31,41 @@ class DmView(Gtk.Box):
             daemon=True
         ).start()
 
+    def _scroll_to_bottom(self):
+        print("Scrolling to bottom")
+        vadjust = self.message_list.get_vadjustment()
+        if vadjust:
+            vadjust.set_value(vadjust.get_upper() - vadjust.get_page_size())
+            return False
+
     def _refresh_message_list(self, messages):
-        def update_gui():
+        def _do():
             print("Refreshing")
             self.message_list_box.remove_all()
 
+            print("Looping")
+
             for message in messages:
-                row = Gtk.Box()
-                row.append(Gtk.Label(label=message.message))
+                row = Gtk.ListBoxRow()
+                box = Gtk.Box()
+                label = Gtk.Label(label=str(message.message or ""))
+                label.set_wrap(True)
+
+                box.append(label)
 
                 if message.author == SessionManager.instance().currentSession[1].userid:
-                    row.set_halign(Gtk.Align.END)
+                    box.set_halign(Gtk.Align.END)
 
+                row.set_child(box)
                 self.message_list_box.append(row)
+
+            print("Looping ok")
 
             self.message_list_holder.set_visible_child(self.message_list)
 
-            # Scroll to bottom
-            self.message_list.set_opacity(0)
-            scrolled = self.message_list
-            vadjust = scrolled.get_vadjustment()
-            vadjust.set_value(vadjust.get_upper() - vadjust.get_page_size())
-            self.message_list.set_opacity(1)
+            GLib.timeout_add(1000, self._scroll_to_bottom)
 
-            return False  # Stop idle_add from repeating
-
-        GLib.idle_add(update_gui)
+        GLib.idle_add(_do)
 
 
     async def _load_messages(self):
@@ -69,6 +78,7 @@ class DmView(Gtk.Box):
             target=asyncio.run(self._do_send_message(entry.get_text())),
             daemon=True
         ).start()
+        entry.set_text("")
 
     async def _do_send_message(self, message):
         try:

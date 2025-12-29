@@ -6,3 +6,4 @@
 src/main.py
 src/views/window.blp
 src/views/login/login.blp
+src/views/chat/chat.py

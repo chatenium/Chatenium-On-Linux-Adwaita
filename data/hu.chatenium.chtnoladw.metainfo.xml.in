@@ -4,8 +4,8 @@
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-3.0-or-later</project_license>
 
-  <name>Chatenium Adwaita</name>
-  <summary>A native Chatenium client built for GNOME</summary>
+  <name>Chatenium</name>
+  <summary>A native Chatenium client built for Linux</summary>
   <description>
     <p>No description</p>
   </description>

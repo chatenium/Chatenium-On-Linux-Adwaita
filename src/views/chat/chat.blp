@@ -11,8 +11,9 @@ template $ChatView: Gtk.Box {
 
       child: Adw.ToolbarView {
         [top]
-        Adw.HeaderBar {
+        Adw.HeaderBar sidenav_header_bar {
           show-title: true;
+          show-end-title-buttons: true;
         }
 
         content: Gtk.Stack chat_list_holder {
@@ -24,12 +25,12 @@ template $ChatView: Gtk.Box {
           }
 
           Gtk.ScrolledWindow chat_list_scroller {
-                Gtk.ListBox chat_list {
-            selection-mode: single;
-            css-classes: ["navigation-sidebar"];
-            row-selected => $on_chat_selected();
-          }
-              }
+            Gtk.ListBox chat_list {
+              selection-mode: single;
+              css-classes: ["navigation-sidebar"];
+              row-selected => $on_chat_selected();
+            }
+         }
         };
       };
     };
@@ -42,6 +43,35 @@ template $ChatView: Gtk.Box {
         [top]
         Adw.HeaderBar {
           show-title: false;
+        }
+
+        Adw.Dialog start_chat_dialog {
+          title: _("Start a new chat");
+          width-request: 400;
+          height-request: 300;
+
+          Adw.ToolbarView {
+            [top]
+            Adw.HeaderBar {}
+
+            Adw.ToastOverlay start_new_toast_ol {
+              Gtk.Box {
+                halign: center;
+                valign: center;
+
+                Adw.PreferencesGroup {
+                  Adw.EntryRow start_new_chat_p_uname_entry {
+                    title: _("Peer username");
+                  }
+
+                  Button {
+                    label: _("Start new chat");
+                    clicked => $on_start_chat();
+                  }
+                }
+              }
+            }
+          }
         }
 
         content: Adw.StatusPage {
