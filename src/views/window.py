@@ -18,8 +18,8 @@ class MainWindow(Adw.ApplicationWindow):
         super().__init__(**kwargs)
 
         #print(Environments)
-        print("Overwritten")
-        Environments.instance().overwrite_env("http://192.168.1.228:3000", "ws://192.168.1.228:3000")
+        #print("Overwritten")
+        #Environments.instance().overwrite_env("http://192.168.1.228:3000", "ws://192.168.1.228:3000")
 
         signedIn = SessionManager.instance().loadSessions()
         if signedIn:
