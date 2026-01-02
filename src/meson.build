@@ -10,6 +10,7 @@ blueprints = custom_target('blueprints',
     'views/login/login.blp',
     'views/chat/chat.blp',
     'views/chat/dm/dm.blp',
+    'views/chat/elements/message/message.blp'
   ),
   output: '.',
   command: [find_program('blueprint-compiler'), 'batch-compile', '@OUTPUT@', '@CURRENT_SOURCE_DIR@', '@INPUT@'],
@@ -52,6 +53,8 @@ chateniumadw_sources = [
   'views/async_image.py',
   'views/chat/dm/dm.py',
   'views/chat/dm/dm.css',
+  'views/chat/elements/message/message.py',
+  'views/chat/elements/message/message.css'
 ]
 
 install_data(chateniumadw_sources, install_dir: moduledir)

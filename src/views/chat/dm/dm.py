@@ -1,6 +1,7 @@
 from gi.repository import Adw, Gtk, Gdk, GLib
 from backend.chat.dm.dm_handler import DmHandler, Attachment
 from backend.session_manager import SessionManager
+from .message import MessageElement
 import os
 import threading
 import asyncio
@@ -14,6 +15,13 @@ class DmView(Gtk.Box):
     message_list = Gtk.Template.Child()
     message_list_loader = Gtk.Template.Child()
     message_list_box = Gtk.Template.Child()
+    message_box_entry = Gtk.Template.Child()
+
+    message_management_box = Gtk.Template.Child()
+    message_management_type_label = Gtk.Template.Child()
+    message_management_msg_preview = Gtk.Template.Child()
+
+    message_management_type = None
 
     def __init__(self, chat, **kwargs):
         super().__init__(**kwargs)
@@ -47,14 +55,13 @@ class DmView(Gtk.Box):
 
             for message in messages:
                 row = Gtk.ListBoxRow()
-                box = Gtk.Box()
-                label = Gtk.Label(label=str(message.message or ""))
-                label.set_wrap(True)
-
-                box.append(label)
+                box = MessageElement(message)
 
                 if message.author == SessionManager.instance().currentSession[1].userid:
                     box.set_halign(Gtk.Align.END)
+
+                box.connect("request-message-management", self._set_message_for_management)
+                box.connect("request-message-delete", self._set_message_for_delete)
 
                 row.set_child(box)
                 self.message_list_box.append(row)
@@ -67,6 +74,40 @@ class DmView(Gtk.Box):
 
         GLib.idle_add(_do)
 
+    def _set_message_for_management(self, child, message, mtype):
+        # Data for later
+        self.message_management_data = message
+        self.message_management_type = mtype
+
+        # Update UI
+        self.message_management_box.set_visible(True)
+        self.message_management_type_label.set_label(_("Editing message: ") if(mtype == "edit") else _("Replying to message: "))
+        self.message_management_msg_preview.set_label(message.message)
+        if mtype == "edit":
+            self.message_box_entry.set_text(message.message)
+
+    def _set_message_for_delete(self, child, message):
+        threading.Thread(
+            target=lambda: asyncio.run(self._delete_message(message)),
+            daemon=True
+        ).start()
+
+    async def _delete_message(self, message):
+        try:
+            await DmHandler.instance().delete_message(self.chatdata.chatid, message.msgid)
+            print("Deleted message")
+        except Exception as e:
+            print(e)
+
+    @Gtk.Template.Callback()
+    def cancel_message_management(self, button):
+        self._do_cancel_message_management()
+
+    def _do_cancel_message_management(self):
+        self.message_management_type = None
+        self.message_management_data = None
+        self.message_management_box.set_visible(False)
+        self.message_box_entry.set_text("")
 
     async def _load_messages(self):
         messages = await DmHandler.instance().get_messages(self.chatdata.chatid)
@@ -82,7 +123,15 @@ class DmView(Gtk.Box):
 
     async def _do_send_message(self, message):
         try:
-            result = await DmHandler.instance().send_message(self.chatdata.chatid, message)
+            print(self.message_management_type)
+            if self.message_management_type == None:
+                await DmHandler.instance().send_message(self.chatdata.chatid, message, "", "")
+            elif self.message_management_type == "reply":
+                await DmHandler.instance().send_message(self.chatdata.chatid, message, self.message_management_data.msgid, self.message_management_data.message)
+            else:
+                await DmHandler.instance().edit_message(self.chatdata.chatid, self.message_management_data.msgid, message)
+
+            self._do_cancel_message_management()
         except Exception as e:
             print(e)
 

@@ -9,9 +9,6 @@ template $DmView : Gtk.Box {
   margin-start: 10;
   margin-bottom: 10;
 
-  // Big box (e.g., list or content area)
-
-
   Gtk.Stack message_list_holder {
     hexpand: true;
     vexpand: true;
@@ -33,10 +30,37 @@ template $DmView : Gtk.Box {
     }
   }
 
-  // Small entry below
-  Gtk.Entry {
+  Box {
+    orientation: vertical;
+    spacing: 3;
+
+    Box message_management_box {
+      orientation: horizontal;
+      visible: false;
+
+      Label message_management_type_label {
+        halign: start;
+        label: _("Editing message: ");
+      }
+
+      Label message_management_msg_preview {
+        halign: start;
+      }
+
+      Box {
+        hexpand: true;
+      }
+
+      Button {
+        label: _("Cancel");
+        clicked => $cancel_message_management();
+      }
+    }
+
+    Gtk.Entry message_box_entry {
       placeholder-text: "Type something...";
       hexpand: true;
       activate => $on_entry_activate();
+    }
   }
 }
