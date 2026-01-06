@@ -33,7 +33,12 @@ jobs:
           blueprint-compiler \
           desktop-file-utils \
           libgtk-4-bin \
-          libgtk-3-bin
+          libgtk-3-bin \
+          libgtk-4-dev \
+          libadwaita-1-dev \
+          gobject-introspection \
+          gir1.2-gtk-4.0 \
+          gir1.2-adw-1
 
     - name: Build .deb
       run: |
