@@ -1,4 +1,4 @@
-Source: chatenium-ol-adwaita
+Source: chatenium-on-linux-adwaita
 Section: gnome
 Priority: optional
 Maintainer: Chatenium <personal@alms.hu>
@@ -13,15 +13,13 @@ Build-Depends:
  python3-pytest
 Standards-Version: 4.6.2
 Homepage: https://chtn.hu
-Vcs-Browser: https://github.com/chatenium/Chatenium-On-Linux-UniEnd
-Vcs-Git: ps://github.com/chatenium/Chatenium-On-Linux-UniEnd.git
+Vcs-Browser: https://github.com/chatenium/Chatenium-On-Linux-Adwaita
+Vcs-Git: ps://github.com/chatenium/Chatenium-On-Linux-Adwaita.git
 
-Package: python3-chatenium-uniend
+Package: chatenium-ol-adw
 Architecture: all
 Depends:
- pybuild-plugin-pyproject,
+ python3-chatenium-uniend,
  ${python3:Depends},
- ${misc:Depends},
- python3-chatenium-uniend
-Description: Chatenium UniEnd backend library
- A Python library to communicate with the Chatenium API.
+ ${misc:Depends}
+Description: Chatenium client made for GNOME
