@@ -40,7 +40,8 @@ jobs:
           libgirepository1.0-dev \
           gir1.2-gtk-3.0 \
           pkg-config \
-          gir1.2-girepository-2.0
+          gir1.2-girepository-2.0 \
+          gir1.2-gtk-3.0
 
     - name: Setup venv + install latest blueprint-compiler
       run: |
