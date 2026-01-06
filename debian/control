@@ -16,7 +16,7 @@ Homepage: https://chtn.hu
 Vcs-Browser: https://github.com/chatenium/Chatenium-On-Linux-Adwaita
 Vcs-Git: ps://github.com/chatenium/Chatenium-On-Linux-Adwaita.git
 
-Package: chatenium-ol-adw
+Package: chatenium-on-linux-adwaita
 Architecture: all
 Depends:
  python3-chatenium-uniend,
