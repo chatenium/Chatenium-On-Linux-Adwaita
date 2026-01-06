@@ -32,7 +32,8 @@ jobs:
           dh-python \
           build-essential \
           desktop-file-utils \
-          gtk-update-icon-cache
+          gtk-update-icon-cache \
+          python3-gi
 
     - name: Clone Blueprint-compiler (The one in APT is too outdated to be used for the app)
       run: |
