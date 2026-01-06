@@ -34,8 +34,8 @@ jobs:
           desktop-file-utils \
           gtk-update-icon-cache \
           python3-gi \
-          gir1.2-gtk-4.0
-        hash -r
+          gir1.2-gtk-4.0 \
+          python3-gi-cairo
 
     - name: Clone Blueprint-compiler (The one in APT is too outdated to be used for the app)
       run: |
