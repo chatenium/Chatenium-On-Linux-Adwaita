@@ -32,6 +32,16 @@ jobs:
           pkg-config \
           build-essential
 
+    - name: Install Homebrew
+      run: |
+        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+        echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> $GITHUB_ENV
+        eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+
+    - name: Install blueprint-compiler
+      run: |
+        brew install blueprint-compiler
+
     - name: Build .deb package
       run: |
         dpkg-buildpackage -us -uc -b
