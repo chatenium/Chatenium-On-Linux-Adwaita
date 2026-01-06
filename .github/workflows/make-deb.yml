@@ -100,7 +100,7 @@ jobs:
           cp ../artifact/builded.deb pool/chatenium-ol-adw_${RELEASE_TAG}_all.deb
           reprepro -b ./apt includedeb bookworm pool/chatenium-ol-adw_${RELEASE_TAG}_all.deb
           reprepro -b ./apt includedeb trixie pool/chatenium-ol-adw_${RELEASE_TAG}_all.deb
-          rm pool/python3-chatenium-uniend_${RELEASE_TAG}_all.deb
+          rm pool/chatenium-ol-adw_${RELEASE_TAG}_all.deb
 
       - name: Commit & push changes
         run: |
