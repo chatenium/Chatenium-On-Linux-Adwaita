@@ -29,6 +29,8 @@ jobs:
           libglib2.0-dev \
           debhelper \
           dh-python \
+          pkg-config \
+          build-essential
 
     - name: Build .deb package
       run: |
