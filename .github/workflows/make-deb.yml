@@ -27,7 +27,6 @@ jobs:
           ninja-build \
           python3-pytest \
           libglib2.0-dev \
-          python3-all \
           debhelper \
           dh-python \
           build-essential \
@@ -37,6 +36,9 @@ jobs:
           gir1.2-gtk-4.0 \
           python3-gi-cairo \
           libcairo2-dev \
+          python3-dev \
+          libgirepository1.0-dev \
+          gir1.2-gtk-3.0 \
           pkg-config
 
     - name: Setup venv + install latest blueprint-compiler
