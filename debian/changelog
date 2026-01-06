@@ -1,0 +1,7 @@
+chatenium-ol-adwaita (0.3.1); urgency=medium
+
+  * Added support for message editing, deleting and replying
+  * Updated the UI for chats
+  * Started native app distribution on Debian and Ubuntu
+
+ -- Chatenium <personal@alms.hu>  Tue, 06 Jan 2026 10:55:32 +0100
