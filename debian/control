@@ -1,4 +1,4 @@
-Source: chatenium-on-linux-adwaita
+Source: chatenium-ol-adwaita
 Section: gnome
 Priority: optional
 Maintainer: Chatenium <personal@alms.hu>
@@ -16,7 +16,7 @@ Homepage: https://chtn.hu
 Vcs-Browser: https://github.com/chatenium/Chatenium-On-Linux-Adwaita
 Vcs-Git: ps://github.com/chatenium/Chatenium-On-Linux-Adwaita.git
 
-Package: chatenium-on-linux-adwaita
+Package: chatenium-ol-adwaita
 Architecture: all
 Depends:
  python3-chatenium-uniend,
