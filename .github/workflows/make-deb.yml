@@ -20,8 +20,8 @@ jobs:
 
     - name: Install build dependencies
       run: |
-        sudo apt-get update
-        sudo apt-get install -y \
+        apt-get update
+        apt-get install -y \
           meson \
           ninja-build \
           python3-pytest \
@@ -63,8 +63,8 @@ jobs:
     steps:
       - name: Install reprepro & git
         run: |
-          sudo apt-get update
-          sudo apt-get install -y reprepro git gnupg
+          apt-get update
+          apt-get install -y reprepro git gnupg
 
       - name: Import GPG key
         run: |
