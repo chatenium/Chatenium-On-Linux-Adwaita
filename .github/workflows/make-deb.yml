@@ -29,7 +29,8 @@ jobs:
           libglib2.0-dev \
           python3-all \
           debhelper \
-          dh-python
+          dh-python \
+          build-essential
 
     - name: Clone Blueprint-compiler (The one in APT is too outdated to be used for the app)
       run: |
