@@ -31,7 +31,9 @@ jobs:
           debhelper \
           dh-python \
           blueprint-compiler \
-          desktop-file-utils
+          desktop-file-utils \
+          libgtk-4-bin \
+          libgtk-3-bin
 
     - name: Build .deb
       run: |
