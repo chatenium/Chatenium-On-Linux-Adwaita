@@ -2,7 +2,6 @@ pkgdatadir = get_option('prefix') / get_option('datadir') / meson.project_name()
 moduledir = pkgdatadir / 'chateniumadw'
 gnome = import('gnome')
 python = import('python')
-pip = find_program('pip3')
 
 blueprints = custom_target('blueprints',
   input: files(
