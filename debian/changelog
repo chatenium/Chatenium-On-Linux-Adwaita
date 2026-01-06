@@ -1,4 +1,4 @@
-chatenium-ol-adwaita (0.3.1) stable; urgency=medium
+chatenium-ol-adwaita (0.3.2) stable; urgency=medium
 
   * Added support for message editing, deleting and replying
   * Updated the UI for chats
