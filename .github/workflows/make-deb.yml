@@ -95,8 +95,10 @@ jobs:
         run: |
           cd repo
           mkdir -p pool
-          reprepro -b ./apt includedeb bookworm pool/chatenium-ol-adw_${RELEASE_TAG}_all.deb
-          reprepro -b ./apt includedeb trixie pool/chatenium-ol-adw_${RELEASE_TAG}_all.deb
+          cp ../artifact/builded.deb pool/python3-chatenium-uniend_${tag}_all.deb
+          reprepro -b ./apt includedeb bookworm pool/chatenium-ol-adw_${tag}_all.deb
+          reprepro -b ./apt includedeb trixie pool/chatenium-ol-adw_${tag}_all.deb
+          rm pool/python3-chatenium-uniend_${tag}_all.deb
 
       - name: Commit & push changes
         run: |
