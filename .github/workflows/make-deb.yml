@@ -38,9 +38,11 @@ jobs:
         echo >> /home/runner/.bashrc
         echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> /home/runner/.bashrc
         eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+        source ~/.bashrc
 
     - name: Install blueprint-compiler
       run: |
+        source ~/.bashrc
         brew install blueprint-compiler
 
     - name: Build .deb package
