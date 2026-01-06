@@ -29,34 +29,6 @@ jobs:
           libglib2.0-dev \
           debhelper \
           dh-python \
-          build-essential \
-          desktop-file-utils \
-          gtk-update-icon-cache \
-          python3-gi \
-          gir1.2-gtk-4.0 \
-          python3-gi-cairo \
-          libcairo2-dev \
-          python3-dev \
-          libgirepository1.0-dev \
-          gir1.2-gtk-3.0 \
-          pkg-config \
-          gir1.2-girepository-2.0 \
-          gir1.2-gtk-3.0
-
-    - name: Setup venv + install latest blueprint-compiler
-      run: |
-        python3 -m venv ~/venv-blueprint
-        source ~/venv-blueprint/bin/activate
-        pip install --upgrade pip
-        pip install PyGObject
-        git config --global user.name "github-actions"
-        git config --global user.email "github-actions@users.noreply.github.com"
-        git clone https://gitlab.gnome.org/GNOME/blueprint-compiler
-        cd blueprint-compiler/
-        meson setup build
-        ninja -C build
-        sudo ninja -C build install
-        hash -r
 
     - name: Build .deb package
       run: |
