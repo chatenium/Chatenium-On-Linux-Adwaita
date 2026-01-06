@@ -37,8 +37,12 @@ jobs:
           gir1.2-gtk-4.0 \
           python3-gi-cairo
 
-    - name: Clone Blueprint-compiler (The one in APT is too outdated to be used for the app)
+    - name: Setup venv + install latest blueprint-compiler
       run: |
+        python3 -m venv ~/venv-blueprint
+        source ~/venv-blueprint/bin/activate
+        pip install --upgrade pip
+        pip install PyGObject
         git config --global user.name "github-actions"
         git config --global user.email "github-actions@users.noreply.github.com"
         git clone https://gitlab.gnome.org/GNOME/blueprint-compiler
