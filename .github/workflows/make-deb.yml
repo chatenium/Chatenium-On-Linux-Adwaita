@@ -31,7 +31,8 @@ jobs:
           debhelper \
           dh-python \
           build-essential \
-          update-desktop-database
+          desktop-file-utils \
+          gtk-update-icon-cache
 
     - name: Clone Blueprint-compiler (The one in APT is too outdated to be used for the app)
       run: |
