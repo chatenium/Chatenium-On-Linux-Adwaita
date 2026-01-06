@@ -30,7 +30,9 @@ jobs:
           python3-all \
           debhelper \
           dh-python \
-          build-essential
+          build-essential \
+          update-desktop-database \
+          gtk-update-icon-cache
 
     - name: Clone Blueprint-compiler (The one in APT is too outdated to be used for the app)
       run: |
