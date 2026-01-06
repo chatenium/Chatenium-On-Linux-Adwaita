@@ -7,7 +7,8 @@ on:
 jobs:
   build-deb:
     runs-on: ubuntu-latest
-
+    container:
+      image: debian:trixie
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
@@ -21,25 +22,18 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install -y \
-          debhelper \
-          python3-all \
           meson \
           ninja-build \
           python3-pytest \
+          blueprint-compiler \
           libglib2.0-dev \
+          python3-all \
           debhelper \
           dh-python \
-          pkg-config \
-          build-essential
+          blueprint-compiler
 
-    - name: Build package
+    - name: Build .deb
       run: |
-        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-        echo >> /home/runner/.bashrc
-        echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> /home/runner/.bashrc
-        eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-        source ~/.bashrc
-        brew install blueprint-compiler
         dpkg-buildpackage -us -uc -b
 
     - name: List built files (debug)
