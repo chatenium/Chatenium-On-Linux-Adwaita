@@ -30,7 +30,8 @@ jobs:
           python3-all \
           debhelper \
           dh-python \
-          blueprint-compiler
+          blueprint-compiler \
+          desktop-file-utils
 
     - name: Build .deb
       run: |
