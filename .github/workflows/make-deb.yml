@@ -8,7 +8,7 @@ jobs:
   build-deb:
     runs-on: ubuntu-latest
     container:
-      image: debian:trixie
+      image: debian:sid
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
