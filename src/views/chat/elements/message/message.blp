@@ -2,51 +2,68 @@ using Gtk 4.0;
 using Adw 1;
 
 template $MessageElement : Gtk.Box {
-  Box holder_box {
-    orientation: vertical;
-    spacing: 2;
-    valign: center;
-    css-classes: ["message_is_author"];
-    height-request: 50;
-    width-request: 200;
+  hexpand: false;
 
-    Box reply_to {
-      visible: false;
+  Adw.Clamp message_clamp {
+    maximum-size: 400;
 
-      Label reply_to_label {
+    Box holder_box {
+      orientation: vertical;
+      spacing: 2;
+      valign: center;
+      css-classes: ["message_is_author"];
+
+      Box reply_to {
+        visible: false;
+
+        Label reply_to_label {
+          halign: start;
+          hexpand: false;
+          css-classes: ["message_reply_label"];
+          label: "";
+          wrap: true;
+          wrap-mode: word_char;
+        }
+      }
+
+      Label main_message {
         halign: start;
-        css-classes: ["message_reply_label"];
+        valign: center;
+        vexpand: true;
+        wrap: true;
+        wrap-mode: word_char;
+        xalign: 0;
         label: "";
       }
-    }
 
-    Label main_message {
-      halign: start;
-      valign: center;
-      vexpand: true;
-      label: "";
-    }
+      Gtk.Popover popover {
+        Box {
+          orientation: vertical;
+          spacing: 3;
 
-    Gtk.Popover popover {
-      Box {
-        orientation: vertical;
-        spacing: 3;
+          Gtk.Button popover_reply {
+            label: _("Reply to message");
+            clicked => $mark_message_for_reply();
+          }
 
-        Gtk.Button popover_reply {
-          label: _("Reply to message");
-          clicked => $mark_message_for_reply();
+          Gtk.Button popover_edit {
+            label: _("Edit message");
+            clicked => $mark_message_for_edit();
+          }
+
+          Gtk.Button popover_delete {
+            styles ["destructive-action"]
+            label: _("Delete message");
+            clicked => $mark_message_for_delete();
+          }
         }
+      }
 
-        Gtk.Button popover_edit {
-          label: _("Edit message");
-          clicked => $mark_message_for_edit();
-        }
-
-        Gtk.Button popover_delete {
-          styles ["destructive-action"]
-          label: _("Delete message");
-          clicked => $mark_message_for_delete();
-        }
+      // Attachments
+      Gtk.FlowBox attachments_list {
+        visible: false;
+        max-children-per-line: 3;
+        selection-mode: none;
       }
     }
   }

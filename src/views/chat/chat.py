@@ -59,9 +59,13 @@ class ChatView(Gtk.Box):
                 if chat.displayName == "":
                     name = "@"+chat.username
 
-                avatar_img = AsyncImage(chat.pfp, placeholder_icon="avatar-default-symbolic", height=35, width=35)
+                avatar_img = AsyncImage(chat.pfp, height=35, width=35, radius=5)
 
-                row.add_prefix(avatar_img)
+                avatar_clamp = Adw.Clamp()
+                avatar_clamp.set_maximum_size(35)
+                avatar_clamp.set_child(avatar_img)
+
+                row.add_prefix(avatar_clamp)
                 row.set_title(name)
                 row.chat_data = chat
                 self.chat_list.append(row)

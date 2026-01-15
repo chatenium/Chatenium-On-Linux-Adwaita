@@ -1,6 +1,9 @@
-from gi.repository import Adw, Gtk, Gdk, GLib, GObject
+from gi.repository import Adw, Gtk, Gdk, GLib, GObject, Gio
 import os
 from backend.session_manager import SessionManager
+from .async_image import AsyncImage
+from pathlib import Path
+import urllib
 
 @Gtk.Template(resource_path='/hu/chatenium/chtnoladw/views/chat/elements/message/message.ui')
 class MessageElement(Gtk.Box):
@@ -18,6 +21,7 @@ class MessageElement(Gtk.Box):
     popover_delete = Gtk.Template.Child()
     reply_to = Gtk.Template.Child()
     reply_to_label = Gtk.Template.Child()
+    attachments_list = Gtk.Template.Child()
 
     def __init__(self, message, **kwargs):
         super().__init__(**kwargs)
@@ -34,10 +38,41 @@ class MessageElement(Gtk.Box):
             self.reply_to.set_visible(True)
             self.reply_to_label.set_label(message.replyTo)
 
+        self._load_attachments(message.files)
+
         gesture = Gtk.GestureClick.new()
         gesture.set_button(Gdk.BUTTON_SECONDARY)
         gesture.connect("pressed", self.on_right_click)
         self.add_controller(gesture)
+
+    def _load_attachments(self, attachments):
+        if attachments:
+            self.attachments_list.set_visible(True)
+
+
+            for attachment in attachments:
+                if attachment.get("type") == "image":
+                    img = AsyncImage(attachment.get("path"))
+
+                    # Add click gesture
+                    click = Gtk.GestureClick.new()
+                    click.connect("pressed", self.on_image_clicked, attachment)
+
+                    img.add_controller(click)
+
+                    self.attachments_list.append(img)
+
+    def on_image_clicked(self, gesture, n_press, x, y, attachment):
+        print(f"Image clicked! Path: {attachment.get('path')}")
+        downloads = Path.home() / "Downloads"
+        downloads.mkdir(exist_ok=True)
+        file_path = downloads / attachment.get("fileName")
+        urllib.request.urlretrieve(attachment.get("path"), file_path)
+
+        uri = Gio.File.new_for_path(str(file_path)).get_uri()
+
+        # Ask the system to open it with the default app
+        Gio.AppInfo.launch_default_for_uri(uri, None)
 
     def on_right_click(self, gesture, n_press, x, y):
         if self.is_author:

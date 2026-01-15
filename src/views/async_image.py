@@ -6,62 +6,66 @@ import urllib.request
 import cairo
 import math
 
-class AsyncImage(Gtk.Image):
-    def __init__(self, url, placeholder_icon="image-missing", width=None, height=None):
+class AsyncImage(Gtk.Picture):
+    def __init__(self, url, width=None, height=None, radius=20):
         super().__init__()
-        self.url = url
-        self.width = width or 64
-        self.height = height or 64
+        self.width = width
+        self.height = height
+        self.radius = radius
 
-        # Placeholder
-        self.set_from_icon_name(placeholder_icon)
-        self.set_size_request(self.width, self.height)
+        if width and height:
+            self.set_size_request(width, height)
 
-        threading.Thread(target=self._download, daemon=True).start()
+        # Start download in a thread
+        threading.Thread(target=self._download, args=(url,), daemon=True).start()
 
-    def _download(self):
+    def _download(self, url):
         try:
-            data = urllib.request.urlopen(self.url).read()
+            data = urllib.request.urlopen(url).read()
             loader = GdkPixbuf.PixbufLoader.new()
             loader.write(data)
             loader.close()
             pixbuf = loader.get_pixbuf()
+            if not pixbuf:
+                return
 
-            # scale
-            pixbuf = pixbuf.scale_simple(self.width, self.height, GdkPixbuf.InterpType.BILINEAR)
+            # Scale to fixed size
+            if not self.width and not self.height:
+                width = 300
+                height = pixbuf.get_height() / (pixbuf.get_width() / width)
+                self.set_size_request(width, height)
 
-            # make rounded
-            rounded_pixbuf = self._pixbuf_to_rounded_rect(pixbuf)
+            scaled_pixbuf = pixbuf.scale_simple(self.width or pixbuf.get_width(), self.height or pixbuf.get_height(), GdkPixbuf.InterpType.BILINEAR)
 
-            GLib.idle_add(lambda: self.set_from_pixbuf(rounded_pixbuf))
+            # Apply rounded corners
+            rounded_pixbuf = self._pixbuf_to_rounded_rect(scaled_pixbuf, self.radius)
+
+            # Update picture on main thread
+            GLib.idle_add(lambda: self.set_pixbuf(rounded_pixbuf))
+
         except Exception as e:
             print("AsyncImage download error:", e)
 
-    def _pixbuf_to_rounded_rect(self, pixbuf, radius=10):
+    def _pixbuf_to_rounded_rect(self, pixbuf, radius):
         w, h = pixbuf.get_width(), pixbuf.get_height()
         surface = cairo.ImageSurface(cairo.FORMAT_ARGB32, w, h)
         cr = cairo.Context(surface)
 
-        # Draw rounded rectangle
+        # Draw rounded rectangle path
         cr.new_path()
-        cr.arc(radius, radius, radius, math.pi, math.pi*1.5)       # top-left
-        cr.arc(w - radius, radius, radius, math.pi*1.5, 0)       # top-right
-        cr.arc(w - radius, h - radius, radius, 0, math.pi*0.5)   # bottom-right
-        cr.arc(radius, h - radius, radius, math.pi*0.5, math.pi)  # bottom-left
+        cr.arc(radius, radius, radius, math.pi, math.pi*1.5)
+        cr.arc(w - radius, radius, radius, math.pi*1.5, 0)
+        cr.arc(w - radius, h - radius, radius, 0, math.pi*0.5)
+        cr.arc(radius, h - radius, radius, math.pi*0.5, math.pi)
         cr.close_path()
         cr.clip()
 
-        # Draw pixbuf
+        # Draw pixbuf inside the clipped path
         Gdk.cairo_set_source_pixbuf(cr, pixbuf, 0, 0)
         cr.paint()
         surface.flush()
 
-        return GdkPixbuf.Pixbuf.new_from_data(
-            surface.get_data(),
-            GdkPixbuf.Colorspace.RGB,
-            True,
-            8,
-            w,
-            h,
-            surface.get_stride()
-        )
+        # Convert Cairo surface back to GdkPixbuf
+        rounded_pixbuf = Gdk.pixbuf_get_from_surface(surface, 0, 0, w, h)
+        return rounded_pixbuf
+

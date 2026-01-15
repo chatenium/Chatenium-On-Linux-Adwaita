@@ -58,7 +58,7 @@ class DmView(Gtk.Box):
                 box = MessageElement(message)
 
                 if message.author == SessionManager.instance().currentSession[1].userid:
-                    box.set_halign(Gtk.Align.END)
+                    row.set_halign(Gtk.Align.END)
 
                 box.connect("request-message-management", self._set_message_for_management)
                 box.connect("request-message-delete", self._set_message_for_delete)
