@@ -37,6 +37,11 @@ template $LoginView : Gtk.Box {
               label: _("Next");
               clicked => $get_auth_callback();
             }
+
+            Label {
+              use-markup: true;
+              label: "Not a member yet? Register a new account <a href='https://chatenium.hu/register'>here</a>";
+            }
           };
         }
 

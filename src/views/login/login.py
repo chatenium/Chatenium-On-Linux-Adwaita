@@ -52,7 +52,7 @@ class LoginView(Gtk.Box):
             self.email_auth.set_visible(result.email)
             self.sms_auth.set_visible(result.sms)
         except Exception as e:
-            toast = Adw.Toast.new(f"{e}")
+            toast = Adw.Toast.new(_("The user was not found in our systems."))
             self.toast_overlay.add_toast(toast)
 
     ### Password auth
