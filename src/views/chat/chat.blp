@@ -25,10 +25,8 @@ template $ChatView: Gtk.Box {
           }
 
           Gtk.ScrolledWindow chat_list_scroller {
-            Gtk.ListBox chat_list {
-              selection-mode: single;
+            Gtk.ListView chat_list {
               css-classes: ["navigation-sidebar"];
-              row-selected => $on_chat_selected();
             }
          }
         };

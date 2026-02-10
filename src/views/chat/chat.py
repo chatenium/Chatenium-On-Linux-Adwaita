@@ -1,16 +1,21 @@
 from gi.repository import Adw, Gtk, GLib
-from backend.chat.chats_handler import ChatsHandler
+from backend.chat.chats_handler import ChatsHandler, Chat
 from backend.session_manager import SessionManager
 from .dm import DmView
 from .async_image import AsyncImage
+from .async_image_scaled import AsyncImageScaled
 from backend.websocket import WebSocket
 from backend.http import GenericErrorBody
+from .chat_model import ChatViewModel, ChatAdapter
 import threading
 import asyncio
 
 @Gtk.Template(resource_path='/hu/chatenium/chtnoladw/views/chat/chat.ui')
 class ChatView(Gtk.Box):
     __gtype_name__ = 'ChatView'
+
+    view_model = ChatViewModel()
+    chat_list_factory = Gtk.SignalListItemFactory()
 
     chat_list = Gtk.Template.Child()
     chat_list_holder = Gtk.Template.Child()
@@ -25,6 +30,20 @@ class ChatView(Gtk.Box):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
+        self.chat_list_holder.set_visible_child(self.chat_list_loader)
+        self.chat_list_loader.start()
+        self.chat_list_factory.connect("setup", self.chat_list_factory_setup)
+        self.chat_list_factory.connect("bind", self.chat_list_factory_bind)
+        self.chat_list.set_factory(self.chat_list_factory)
+        selection_model = Gtk.SingleSelection(model=self.view_model.chats)
+        selection_model.connect("notify::selected", self.on_chat_selected)
+        self.chat_list.set_model(selection_model)
+        threading.Thread(
+            target=lambda: asyncio.run(self.view_model.load_chats()),
+            daemon=True
+        ).start()
+        self.chat_list_holder.set_visible_child(self.chat_list_scroller)
+
         startBtn = Gtk.Button()
         startBtn.set_icon_name("value-increase-symbolic")
         startBtn.connect("clicked", self.start_chat_dialog.present)
@@ -35,43 +54,26 @@ class ChatView(Gtk.Box):
             daemon=True
         ).start()
 
-        self.chat_list_holder.set_visible_child(self.chat_list_loader)
-        self.chat_list_loader.start()
-
-        threading.Thread(
-            target=lambda: asyncio.run(self._load_chats()),
-            daemon=True
-        ).start()
-
-    @Gtk.Template.Callback()
-    def on_chat_selected(self, listbox, item):
-        chat = item.chat_data
+    def on_chat_selected(self, selection, _):
+        print(selection.get_selected())
+        chat = self.view_model.chats[selection.get_selected()]
         self.main_content.set_content(DmView(chat))
 
-    async def _load_chats(self):
-        def _do(chats):
-            self.chat_list.remove_all()
-            self.chat_list_holder.set_visible_child(self.chat_list_scroller)
-            for chat in chats:
-                row = Adw.ActionRow()
+    def chat_list_factory_setup(self, factory, list_item):
+        row = Adw.ActionRow()
+        list_item.row = row
+        list_item.set_child(row)
 
-                name = chat.displayName
-                if chat.displayName == "":
-                    name = "@"+chat.username
+    def chat_list_factory_bind(self, factory, list_item):
+        chat: ChatAdapter = list_item.get_item()
+        row = list_item.row
+        name = chat.display_name or "@" + chat.username
+        row.set_title(name)
 
-                avatar_img = AsyncImage(chat.pfp, height=35, width=35, radius=5)
-
-                avatar_clamp = Adw.Clamp()
-                avatar_clamp.set_maximum_size(35)
-                avatar_clamp.set_child(avatar_img)
-
-                row.add_prefix(avatar_clamp)
-                row.set_title(name)
-                row.chat_data = chat
-                self.chat_list.append(row)
-
-        chats = await ChatsHandler.instance().getChats()
-        GLib.idle_add(_do, chats)
+        # Update the avatar image
+        avatar_img = AsyncImageScaled(chat.pfp, height=35, width=35)
+        avatar_img.set_size_request(35, 35)
+        list_item.row.add_prefix(avatar_img)
 
     @Gtk.Template.Callback()
     def on_start_chat(self, button):
