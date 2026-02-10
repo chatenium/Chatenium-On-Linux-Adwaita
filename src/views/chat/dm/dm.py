@@ -6,6 +6,7 @@ import os
 import threading
 import asyncio
 import time
+from .message_box import MessageBox
 
 @Gtk.Template(resource_path='/hu/chatenium/chtnoladw/views/chat/dm/dm.ui')
 class DmView(Gtk.Box):
@@ -15,11 +16,12 @@ class DmView(Gtk.Box):
     message_list = Gtk.Template.Child()
     message_list_loader = Gtk.Template.Child()
     message_list_box = Gtk.Template.Child()
-    message_box_entry = Gtk.Template.Child()
 
     message_management_box = Gtk.Template.Child()
     message_management_type_label = Gtk.Template.Child()
     message_management_msg_preview = Gtk.Template.Child()
+
+    msg_box = Gtk.Template.Child()
 
     message_management_type = None
 
@@ -36,6 +38,17 @@ class DmView(Gtk.Box):
         ).start()
         threading.Thread(
             target=lambda: asyncio.run(self._load_messages()),
+            daemon=True
+        ).start()
+
+        # Message Box
+        message_box = MessageBox()
+        message_box.connect("message-sent", self._message_sent_event)
+        self.msg_box.append(message_box)
+
+    def _message_sent_event(self, child, message, files):
+        threading.Thread(
+            target=asyncio.run(self._do_send_message(message, files)),
             daemon=True
         ).start()
 
@@ -113,23 +126,15 @@ class DmView(Gtk.Box):
         messages = await DmHandler.instance().get_messages(self.chatdata.chatid)
         self._refresh_message_list(messages)
 
-    @Gtk.Template.Callback()
-    def on_entry_activate(self, entry):
-        threading.Thread(
-            target=asyncio.run(self._do_send_message(entry.get_text())),
-            daemon=True
-        ).start()
-        entry.set_text("")
-
-    async def _do_send_message(self, message):
+    async def _do_send_message(self, message, files):
         try:
             print(self.message_management_type)
             if self.message_management_type == None:
-                await DmHandler.instance().send_message(self.chatdata.chatid, message, "", "")
+                await DmHandler.instance().send_message(self.chatdata.chatid, message, "", "", files)
             elif self.message_management_type == "reply":
-                await DmHandler.instance().send_message(self.chatdata.chatid, message, self.message_management_data.msgid, self.message_management_data.message)
+                await DmHandler.instance().send_message(self.chatdata.chatid, message, self.message_management_data.msgid, self.message_management_data.message, files)
             else:
-                await DmHandler.instance().edit_message(self.chatdata.chatid, self.message_management_data.msgid, message)
+                await DmHandler.instance().edit_message(self.chatdata.chatid, self.message_management_data.msgid, message, files)
 
             self._do_cancel_message_management()
         except Exception as e:

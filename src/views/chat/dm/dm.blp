@@ -57,10 +57,7 @@ template $DmView : Gtk.Box {
       }
     }
 
-    Gtk.Entry message_box_entry {
-      placeholder-text: "Type something...";
-      hexpand: true;
-      activate => $on_entry_activate();
-    }
+    // box here
+    Box msg_box {}
   }
 }
