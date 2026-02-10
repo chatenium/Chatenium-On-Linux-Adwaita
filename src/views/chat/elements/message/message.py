@@ -117,3 +117,4 @@ class MessageElement(Gtk.Box):
             css_provider,
             Gtk.STYLE_PROVIDER_PRIORITY_USER
         )
+
