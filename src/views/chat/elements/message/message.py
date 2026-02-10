@@ -1,9 +1,10 @@
 from gi.repository import Adw, Gtk, Gdk, GLib, GObject, Gio
 import os
 from backend.session_manager import SessionManager
-from .async_image import AsyncImage
+from .async_image_scaled import AsyncImageScaled
 from pathlib import Path
 import urllib
+import requests
 
 @Gtk.Template(resource_path='/hu/chatenium/chtnoladw/views/chat/elements/message/message.ui')
 class MessageElement(Gtk.Box):
@@ -49,10 +50,17 @@ class MessageElement(Gtk.Box):
         if attachments:
             self.attachments_list.set_visible(True)
 
-
             for attachment in attachments:
-                if attachment.get("type") == "image":
-                    img = AsyncImage(attachment.get("path"))
+                if attachment.type == "image":
+                    max_size = 300
+                    scale_w = max_size / attachment.width
+                    scale_h = max_size / attachment.height
+                    scale = min(scale_w, scale_h)
+
+                    new_width = int(attachment.width * scale)
+                    new_height = int(attachment.height * scale)
+
+                    img = AsyncImageScaled(attachment.path, new_height, new_width)
 
                     # Add click gesture
                     click = Gtk.GestureClick.new()
@@ -63,15 +71,16 @@ class MessageElement(Gtk.Box):
                     self.attachments_list.append(img)
 
     def on_image_clicked(self, gesture, n_press, x, y, attachment):
-        print(f"Image clicked! Path: {attachment.get('path')}")
+        print(f"Image clicked! Path: {attachment.path}")
         downloads = Path.home() / "Downloads"
         downloads.mkdir(exist_ok=True)
-        file_path = downloads / attachment.get("fileName")
-        urllib.request.urlretrieve(attachment.get("path"), file_path)
-
+        safe_url = urllib.parse.quote(attachment.path, safe=':/')
+        response = requests.get(safe_url)
+        response.raise_for_status()  # raise error if request fails
+        file_path = downloads / attachment.fileName
+        with open(file_path, "wb") as f:
+            f.write(response.content)
         uri = Gio.File.new_for_path(str(file_path)).get_uri()
-
-        # Ask the system to open it with the default app
         Gio.AppInfo.launch_default_for_uri(uri, None)
 
     def on_right_click(self, gesture, n_press, x, y):
