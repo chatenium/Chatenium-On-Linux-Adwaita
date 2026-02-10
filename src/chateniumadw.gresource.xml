@@ -7,10 +7,13 @@
     <file preprocess="xml-stripblanks">views/chat/chat.ui</file>
     <file preprocess="xml-stripblanks">views/chat/dm/dm.ui</file>
     <file preprocess="xml-stripblanks">views/chat/elements/message/message.ui</file>
+    <file preprocess="xml-stripblanks">views/chat/elements/message_box/message_box.ui</file>
+    <file preprocess="xml-stripblanks">views/chat/elements/message_box/message_box_dialog.ui</file>
   </gresource>
 
   <gresource prefix="/hu/chatenium/chtnoladw/icons/scalable/actions/">
     <file compressed="true" preprocess="xml-stripblanks" alias="key-symbolic.svg">icons/key-symbolic.svg</file>
     <file compressed="true" preprocess="xml-stripblanks" alias="mail-reply-sender-symbolic.svg">icons/mail-reply-sender-symbolic.svg</file>
+    <file compressed="true" preprocess="xml-stripblanks" alias="send-alt-symbolic.svg">icons/send-alt-symbolic.svg</file>
   </gresource>
 </gresources>
