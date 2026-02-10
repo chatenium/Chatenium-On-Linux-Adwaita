@@ -1,0 +1,25 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $MessageBox : Gtk.Box {
+  spacing: 5;
+
+  Button {
+    icon-name: "mail-attachment-symbolic";
+    clicked => $on_upload_clicked();
+  }
+
+  Gtk.Entry entry {
+    placeholder-text: "Type something...";
+    hexpand: true;
+    activate => $on_entry_activate();
+  }
+}
+
+Adw.Dialog upload_attachments_dialog {
+  title: _("Start a new chat");
+
+  Label {
+    label: _("ASD");
+  }
+}

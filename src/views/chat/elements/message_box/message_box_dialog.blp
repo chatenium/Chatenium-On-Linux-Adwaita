@@ -1,0 +1,42 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $MessageBoxDialog : Adw.Dialog {
+  width-request: 300;
+  height-request: 150;
+  title: _("Upload attachment(s)");
+
+  Adw.ToolbarView {
+    [top]
+    Adw.HeaderBar sidenav_header_bar {
+      show-title: true;
+      show-end-title-buttons: true;
+    }
+
+    Box box{
+      valign: center;
+      halign: center;
+      hexpand: true;
+      orientation: vertical;
+      spacing: 5;
+
+      Label upload_label {} // Set by Python
+
+      Box {
+        orientation: horizontal;
+        spacing: 5;
+
+        Gtk.Entry entry {
+          placeholder-text: "Caption";
+          hexpand: true;
+          activate => $on_entry_activate();
+        }
+
+        Button submit_button {
+          icon-name: "send-alt-symbolic";
+          clicked => $on_button_activate();
+        }
+      }
+    }
+  }
+}
