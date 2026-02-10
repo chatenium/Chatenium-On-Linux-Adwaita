@@ -23,8 +23,7 @@ Depends:
  python3-requests,
  python3-keyring,
  python3-aiohttp,
- python3-websocket
- python3-pillow
+ python3-websocket,
  ${python3:Depends},
  ${misc:Depends}
 Description: Chatenium client made for GNOME
