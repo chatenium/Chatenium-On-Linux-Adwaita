@@ -3,23 +3,44 @@ using Adw 1;
 
 template $MessageBox : Gtk.Box {
   spacing: 5;
+  orientation: vertical;
 
-  Button {
-    icon-name: "mail-attachment-symbolic";
-    clicked => $on_upload_clicked();
-  }
+  Box message_management_box {
+      orientation: horizontal;
+      visible: false;
 
-  Gtk.Entry entry {
-    placeholder-text: "Type something...";
-    hexpand: true;
-    activate => $on_entry_activate();
-  }
-}
+      Label message_management_type_label {
+        halign: start;
+        label: _("Editing message: ");
+      }
 
-Adw.Dialog upload_attachments_dialog {
-  title: _("Start a new chat");
+      Label message_management_msg_preview {
+        halign: start;
+      }
 
-  Label {
-    label: _("ASD");
+      Box {
+        hexpand: true;
+      }
+
+      Button {
+        label: _("Cancel");
+        clicked => $cancel_message_management();
+      }
+    }
+
+  Box {
+    orientation: horizontal;
+    spacing: 5;
+
+    Button {
+      icon-name: "mail-attachment-symbolic";
+      clicked => $on_upload_clicked();
+    }
+
+    Gtk.Entry entry {
+      placeholder-text: "Type something...";
+      hexpand: true;
+      activate => $on_entry_activate();
+    }
   }
 }
