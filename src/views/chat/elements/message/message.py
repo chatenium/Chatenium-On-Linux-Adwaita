@@ -76,6 +76,8 @@ class MessageElement(Gtk.Box):
                     img.add_controller(click)
 
                     self.attachments_list.append(img)
+                else:
+                    self.attachments_list.append(Gtk.Label(label=_("Unsupported attachment")))
 
     def on_image_clicked(self, gesture, n_press, x, y, attachment):
         print(f"Image clicked! Path: {attachment.path}")

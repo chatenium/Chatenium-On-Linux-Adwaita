@@ -1,3 +1,10 @@
+chatenium-ol-adwaita (0.5) stable; urgency=medium
+
+  * Many internal refactors for performance boost and better code quality
+  * Implemented attachment upload support
+
+ -- Chatenium <personal@alms.hu>  Fri, 13 Feb 2026 15:03:25 +0100
+
 chatenium-ol-adwaita (0.4.1) stable; urgency=medium
 
   * Applied chat fetch hotfix in UniEnd
