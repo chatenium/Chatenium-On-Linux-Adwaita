@@ -3,6 +3,7 @@ import os
 from backend.session_manager import SessionManager
 from .async_image_scaled import AsyncImageScaled
 from pathlib import Path
+from .dm_model import MessageAdapter
 import urllib
 import requests
 
@@ -11,7 +12,7 @@ class MessageElement(Gtk.Box):
     __gtype_name__ = 'MessageElement'
     __gsignals__ = {
         "request-message-management": (GObject.SIGNAL_RUN_FIRST, None, (object,str)),
-        "request-message-delete": (GObject.SIGNAL_RUN_FIRST, None, (object,))
+        "request-message-delete": (GObject.SIGNAL_RUN_FIRST, None, (str,))
     }
 
     main_message = Gtk.Template.Child()
@@ -24,20 +25,26 @@ class MessageElement(Gtk.Box):
     reply_to_label = Gtk.Template.Child()
     attachments_list = Gtk.Template.Child()
 
-    def __init__(self, message, **kwargs):
+    def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.message = message
-        self.main_message.set_label(message.message)
         self.add_styles()
+
+    def init_element(self, message):
+        self.message = message
+
+        self.main_message.set_label(message.message)
+        self.main_message.bind_property("label", message, "message", GObject.BindingFlags.SYNC_CREATE | GObject.BindingFlags.BIDIRECTIONAL)
 
         self.is_author = True
         if SessionManager.instance().currentSession[1].userid != message.author:
             self.is_author = False
             self.holder_box.add_css_class("message_is_not_author")
+        else:
+            self.set_halign(Gtk.Align.END)
 
-        if message.replyTo != "":
+        if message.reply_to != "":
             self.reply_to.set_visible(True)
-            self.reply_to_label.set_label(message.replyTo)
+            self.reply_to_label.set_label(message.reply_to)
 
         self._load_attachments(message.files)
 
@@ -101,7 +108,7 @@ class MessageElement(Gtk.Box):
 
     @Gtk.Template.Callback()
     def mark_message_for_delete(self, button):
-        self.emit("request-message-delete", self.message)
+        self.emit("request-message-delete", self.message.msgid)
 
     @Gtk.Template.Callback()
     def mark_message_for_reply(self, button):
