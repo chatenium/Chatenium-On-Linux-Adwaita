@@ -49,10 +49,7 @@ class ChatView(Gtk.Box):
         startBtn.connect("clicked", self.start_chat_dialog.present)
         self.sidenav_header_bar.pack_end(startBtn)
 
-        threading.Thread(
-            target=asyncio.run(WebSocket.instance().connect()),
-            daemon=True
-        ).start()
+        asyncio.create_task(WebSocket.instance().connect())
 
     def on_chat_selected(self, selection, _):
         print(selection.get_selected())
@@ -93,5 +90,6 @@ class ChatView(Gtk.Box):
             _("chatAlreadyExists")
             toast = Adw.Toast.new(_(f"{e}"))
             self.start_new_toast_ol.add_toast(toast)
+
 
 
