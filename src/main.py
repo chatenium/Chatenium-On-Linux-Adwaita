@@ -24,7 +24,8 @@ import asyncio
 gi.require_version('Gtk', '4.0')
 gi.require_version('Adw', '1')
 
-from gi.repository import Gtk, Gio, Adw
+from gi.repository import Gtk, Gio, Adw, GLib
+from gi.events import GLibEventLoopPolicy
 from .window import MainWindow
 import os
 
@@ -47,9 +48,9 @@ class ChateniumadwApplication(Adw.Application):
             win = MainWindow(application=self)
         win.present()
 
-
 def main(version):
     """The application's entry point."""
+    asyncio.set_event_loop_policy(GLibEventLoopPolicy())
     app = ChateniumadwApplication()
 
     return app.run(sys.argv)
