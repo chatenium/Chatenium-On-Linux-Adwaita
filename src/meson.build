@@ -60,7 +60,9 @@ chateniumadw_sources = [
   'views/chat/elements/message/message.py',
   'views/chat/elements/message/message.css',
   'views/chat/elements/message_box/message_box.py',
-  'views/chat/elements/message_box/message_box_dialog.py'
+  'views/chat/elements/message_box/message_box_dialog.py',
+  'viewmodel/chat/elements/message_box/message_box_model.py',
+  'viewmodel/chat/dm/dm_model.py'
 ]
 
 install_data(chateniumadw_sources, install_dir: moduledir)
